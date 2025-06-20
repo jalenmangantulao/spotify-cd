@@ -4,62 +4,59 @@ from requests.auth import HTTPBasicAuth
 
 import json
 import os
-import pprint
 
-#global spotify
+class playlists():
 
-os.environ['OAUTHLIB_INSECURE_TRANSPORT'] = '1'
+    def __init__(self):
+        self.AUTH_URL = 'https://accounts.spotify.com/authorize'
+        self.TOKEN_URL = 'https://accounts.spotify.com/api/token'
+        self.REDIRECT_URI = 'https://127.0.0.1:3000/callback'
+        self.CLIENT_ID = os.environ.get('CLIENT_ID')
+        self.CLIENT_SECRET = os.environ.get('CLIENT_SECRET')
+        self.SCOPE = [
+            "user-read-email",
+            "playlist-read-collaborative"
+        ]
+        self.TOKEN = None
+        self.HEADERS = {'Content-Type': 'application/x-www-form-urlencoded'}
+        self.AUTH_INFO = HTTPBasicAuth(self.CLIENT_ID, self.CLIENT_SECRET)
+        self.session = self.login()
+        self.PLAYLISTS = self.get_playlists(self.session)
+        self.TRACK_LIST = self.get_tracks(self.session, self.PLAYLISTS[0][2]) #self.PLAYLISTS is a 2d array, mofidy first value to correspond to playlist
 
-AUTH_URL = 'https://accounts.spotify.com/authorize'
-TOKEN_URL = 'https://accounts.spotify.com/api/token'
-REDIRECT_URI = 'https://127.0.0.1:3000/callback'
-CLIENT_ID = os.environ.get('CLIENT_ID')
-CLIENT_SECRET = os.environ.get('SECRET')
-SCOPE = [
-    "user-read-email",
-    "playlist-read-collaborative"
-]
-TOKEN = None
-headers = {'Content-Type': 'application/x-www-form-urlencoded'}
-#auth_info = {'grant_type' : 'authorization_token',
-#             'client_id' : CLIENT_ID,
-#             'client_secret' : CLIENT_SECRET}
-auth_info = HTTPBasicAuth(CLIENT_ID, CLIENT_SECRET)
+    def login(self):
+        spotify = OAuth2Session(self.CLIENT_ID, scope = self.SCOPE, redirect_uri = self.REDIRECT_URI)
+        authorization_url, state = spotify.authorization_url(self.AUTH_URL)
+        print(authorization_url)
+        code = input()
+        self.TOKEN = spotify.fetch_token(self.TOKEN_URL, auth = self.AUTH_INFO, authorization_response = code, state = state)
+        return spotify
 
-def get_token():
-    x = requests.post(TOKEN_URL, auth_info, headers)
-    r = json.loads(x.text)
-    TOKEN = r['access_token']
+    def get_playlists(self, spotify):
+        count = 0
+        return_data = {}
+        user = spotify.get('https://api.spotify.com/v1/me')
+        user_json = json.loads(user.content)
+        USER_ID = user_json['id']
+        playlists = spotify.get(f'https://api.spotify.com/v1/users/{USER_ID}/playlists')
+        parsed = json.loads(playlists.content)
+        for i in parsed.get('items'):
+            if i.get('external_urls') and i['owner']['id'] == USER_ID:
+                return_data[count] = (i['name'], i['id'], i['tracks']['href'])
+                count+=1
 
-def login():
-    spotify = OAuth2Session(CLIENT_ID, scope=SCOPE, redirect_uri=REDIRECT_URI)
-    authorization_url, state = spotify.authorization_url(AUTH_URL)
-    print(authorization_url)
-    code = input()
-    token = spotify.fetch_token(TOKEN_URL, auth=auth_info, authorization_response=code, state=state)
-    return spotify
+        return return_data
 
-def test(spotify):
-    user = spotify.get('https://api.spotify.com/v1/me')
-    user_json = json.loads(user.content)
-    USER_ID = user_json['id']
-    playlists = spotify.get(f'https://api.spotify.com/v1/users/{USER_ID}/playlists')
-    parsed = json.loads(playlists.content)
-    for i in parsed.get('items'):
-        if i.get('external_urls'):
-            if i['owner']['id'] == USER_ID:
-                print(f"Playlist name: {i['name']}, Playlist ID: {i['id']}, Tracks href: {i['tracks']['href']}")
-
-        first_track_list = spotify.get(i['tracks']['href'])
+    def get_tracks(self, spotify, playlist):
+        return_data = []
+        first_track_list = spotify.get(playlist)
         tracks_json = json.loads(first_track_list.content)
-        for j in tracks_json.get('items'):
-            if j.get('track'):
-                artists = j['track']['artists']
+        for i in tracks_json.get('items'):
+            if i.get('track'):
+                artists = i['track']['artists']
                 artists_names = [a['name'] for a in artists]
-                names = ",".join(artists_names)
-                track_name = j['track']['name']
-                print(f"{track_name} by {names}")
-s = login()
-test(s)
+                names = ", ".join(artists_names)
+                track_name = i['track']['name']
+                return_data.append(f"{track_name} by {names}")
 
-    
+        return return_data
