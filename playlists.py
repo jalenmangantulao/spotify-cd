@@ -22,7 +22,7 @@ class playlists():
         self.AUTH_INFO = HTTPBasicAuth(self.CLIENT_ID, self.CLIENT_SECRET)
         self.session = self.login()
         self.PLAYLISTS = self.get_playlists(self.session)
-        self.TRACK_LIST = self.get_tracks(self.session, self.PLAYLISTS[0][2]) #self.PLAYLISTS is a 2d array, mofidy first value to correspond to playlist
+        self.TRACK_LIST = self.get_tracks(self.session, self.PLAYLISTS[0][2]) #self.PLAYLISTS is a 2d array, modify first value to correspond to playlist
 
     def login(self):
         spotify = OAuth2Session(self.CLIENT_ID, scope = self.SCOPE, redirect_uri = self.REDIRECT_URI)
