@@ -6,9 +6,13 @@ import json
 import os
 import pprint
 
+from dotenv import load_dotenv
+
 #global spotify
 
 os.environ['OAUTHLIB_INSECURE_TRANSPORT'] = '1'
+
+load_dotenv()
 
 AUTH_URL = 'https://accounts.spotify.com/authorize'
 TOKEN_URL = 'https://accounts.spotify.com/api/token'
