@@ -1,0 +1,3 @@
+Requests==2.32.4
+requests_oauthlib==2.0.0
+pipreqs==0.4.13
