@@ -28,7 +28,7 @@ jobs:
       
   compare-package-dependencies:
     needs: check-python-changes-on-pr
-    if: needs.check-python-changed-on-pr.outputs.py_files_changed == 'true'
+    if: needs.check-python-changes-on-pr.outputs.py_files_changed == 'true'
     runs-on: ubuntu-latest
     
     strategy:
