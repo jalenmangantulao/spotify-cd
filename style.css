@@ -61,7 +61,7 @@ p {
   /* You can also use relative/absolute here if you want to stay on the top */
   position: fixed;
   top: 50px;
-  left: 50px;
+  right: 50px;
   
   z-index: 1;
   
@@ -90,7 +90,7 @@ p {
   height: 32px;
   position: absolute;
   top: -7px;
-  left: -5px;
+  right: -5px;
   
   cursor: pointer;
   
@@ -182,7 +182,7 @@ p {
   /* to stop flickering of text in safari */
   
   transform-origin: 0% 0%;
-  transform: translate(-100%, 0);
+  transform: translate(100%, 0);
   
   transition: transform 0.5s cubic-bezier(0.77,0.2,0.05,1.0);
 }
@@ -223,4 +223,49 @@ img {
   0% { transform: translateY(0); }
   50% { transform: translateY(-5px); }
   100% { transform: translateY(0); }
+}
+
+#menuToggleLeft
+{
+  display: block;
+  /* You can also use relative/absolute here if you want to stay on the top */
+  position: fixed;
+  top: 50px;
+  left: 0em;
+}
+
+#menuLeft
+{
+  position: absolute;
+  max-width: 400px;
+  width: 100vw;
+  max-height: 100vh;
+  margin: -100px 0 0 -50px;
+  padding: 50px;
+  padding-top: 125px;
+  box-sizing: border-box;
+  overflow-y: auto;
+  /* background: #ededed; */
+  list-style-type: none;
+  -webkit-font-smoothing: antialiased;
+  /* to stop flickering of text in safari */
+  
+  transform-origin: 0% 0%;
+  transform: translate(100%, 0);
+  
+  transition: transform 0.5s cubic-bezier(0.77,0.2,0.05,1.0);
+}
+
+#menuLeft li
+{
+  padding: 10px 0;
+  font-size: 22px;
+  font-family: "Bagel Fat One", system-ui;
+  
+
+}
+
+#menu li label
+{
+  cursor: pointer;
 }
