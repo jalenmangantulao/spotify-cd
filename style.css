@@ -73,7 +73,7 @@ p {
 {
   text-decoration: none;
   /* color: #232323; */
-  color: #23d5ab;
+  color: #ffffff;
   transition: color 0.3s ease;
 }
 
@@ -111,7 +111,7 @@ p {
   margin-bottom: 5px;
   position: relative;
   
-  background: #23d5ab;
+  background: #ffffff;
   border-radius: 3px;
   
   z-index: 1;
@@ -141,7 +141,7 @@ p {
 {
   opacity: 1;
   transform: rotate(45deg) translate(-2px, -1px);
-  background: #23d5ab;
+  background: #ffffff;
 }
 
 /*
