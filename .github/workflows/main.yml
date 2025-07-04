@@ -1,11 +1,32 @@
+name: Check for New Python Package Imports in New/Modified .py Files
 on:
+  push:
+    branches:
+      - main
   pull_request:
     branches:
       -  main
 
-
 jobs:
-  compare-dependencies:
+  check-python-changes-on-pr:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout PR branch
+        uses: actions/checkout@v4
+        id: changed-python-files
+      
+      - name:  
+        uses: tj-actions/changed-files@v46
+        with:
+          files: |
+            **.py
+      
+      - name: Run compare-dependencies if Python files modified
+        if: steps.changed-python-files.outputs.any_changed == 'true'
+        run: compare-package-dependencies
+      
+  compare-package-dependencies:
+    needs: check-python-changes-on-pr
     runs-on: ubuntu-latest
     
     strategy:
