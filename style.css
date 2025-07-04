@@ -1,5 +1,7 @@
 container {
     background-color: beige;
+    display: flex;
+    justify-content: center;
 }
 
 body {
@@ -7,6 +9,14 @@ body {
 	background-size: 400% 400%;
 	animation: gradient 15s ease infinite;
 	height: 100vh;
+}
+
+h1 {
+    font-family: "Bagel Fat One", system-ui;
+    font-size: 40px;
+    text-align: center;
+    color:#23d5ab;
+    margin-top: 15px;
 }
 
 @keyframes gradient {
@@ -36,6 +46,13 @@ p {
   scroll-behavior: smooth;
 }
 
+.container {
+  display: flex;
+  justify-content: center; /* Centers items horizontally */
+  align-items: center; /* Centers items vertically (if needed) */
+}
+
+/* 
 /* Menu code starts here */
 
 #menuToggle
@@ -55,8 +72,8 @@ p {
 #menuToggle a
 {
   text-decoration: none;
-  color: #232323;
-  
+  /* color: #232323; */
+  color: #23d5ab;
   transition: color 0.3s ease;
 }
 
@@ -94,7 +111,7 @@ p {
   margin-bottom: 5px;
   position: relative;
   
-  background: #cdcdcd;
+  background: #23d5ab;
   border-radius: 3px;
   
   z-index: 1;
@@ -102,8 +119,8 @@ p {
   transform-origin: 4px 0px;
   
   transition: transform 0.5s cubic-bezier(0.77,0.2,0.05,1.0),
-              background 0.5s cubic-bezier(0.77,0.2,0.05,1.0),
-              opacity 0.55s ease;
+  background 0.5s cubic-bezier(0.77,0.2,0.05,1.0),
+  opacity 0.55s ease;
 }
 
 #menuToggle span:first-child
@@ -124,7 +141,7 @@ p {
 {
   opacity: 1;
   transform: rotate(45deg) translate(-2px, -1px);
-  background: #232323;
+  background: #23d5ab;
 }
 
 /*
@@ -159,7 +176,7 @@ p {
   padding-top: 125px;
   box-sizing: border-box;
   overflow-y: auto;
-  background: #ededed;
+  /* background: #ededed; */
   list-style-type: none;
   -webkit-font-smoothing: antialiased;
   /* to stop flickering of text in safari */
@@ -174,6 +191,9 @@ p {
 {
   padding: 10px 0;
   font-size: 22px;
+  font-family: "Bagel Fat One", system-ui;
+  
+
 }
 
 #menu li label
@@ -187,4 +207,20 @@ p {
 #menuToggle input:checked ~ ul
 {
   transform: none;
+}
+
+.image-container {
+  display: flex;
+  justify-content: center;
+  padding: 85px;
+}
+
+img {
+  animation: float 6s ease-in-out infinite;
+}
+
+@keyframes float {
+  0% { transform: translateY(0); }
+  50% { transform: translateY(-5px); }
+  100% { transform: translateY(0); }
 }
