@@ -1,25 +1,27 @@
-name: Check for New Python Package Imports in New/Modified .py Files
+name: Compare Python Dependencies from main and PR branch
 on:
-  push:
-    branches:
-      - main
   pull_request:
     branches:
       -  main
+    paths:
+      - '**/*.py'
+      - 'requirements.txt'
 
 jobs:
   check-python-changes-on-pr:
     runs-on: ubuntu-latest
+    outputs:
+      py_files_changed: ${{ steps.changed-python-files.outputs.any_changed }}
     steps:
       - name: Checkout PR branch
         uses: actions/checkout@v4
-        id: changed-python-files
       
       - name:  Check PR branch for New/Modified Python Files
         uses: tj-actions/changed-files@v46
+        id: changed-python-files
         with:
           files: |
-            **.py
+            **/*.py
       
       - name: Run compare-dependencies if Python files modified
         if: steps.changed-python-files.outputs.any_changed == 'true'
@@ -27,6 +29,7 @@ jobs:
       
   compare-package-dependencies:
     needs: check-python-changes-on-pr
+    if: needs.check-python-changed-on-pr.outputs.py_files_changed == 'true'
     runs-on: ubuntu-latest
     
     strategy:
@@ -35,7 +38,7 @@ jobs:
         
     steps:
       - name: Checkout PR branch
-        uses: actions/checkout@v4 # checkout multiple repos
+        uses: actions/checkout@v4
 
       - name: Set up Python
         uses: actions/setup-python@v5
