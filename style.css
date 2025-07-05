@@ -1,5 +1,4 @@
 container {
-    background-color: beige;
     display: flex;
     justify-content: center;
 }
@@ -225,47 +224,28 @@ img {
   100% { transform: translateY(0); }
 }
 
-#menuToggleLeft
-{
+.menuIcons {
+  display: none;
+}
+
+.iconLabel {
+    cursor: pointer;
+    display: inline-block;
+    margin: 10px;
+    border: 2px solid transparent;
+    border-radius: 10px;
+}
+
+.menuIcons:checked + .iconLabel {
+  border-color: blue;
+}
+
+.iconLabel img {
+  width: 100px; /* adjust size as needed */
+  height: auto;
   display: block;
-  /* You can also use relative/absolute here if you want to stay on the top */
-  position: fixed;
-  top: 50px;
-  left: 0em;
 }
 
-#menuLeft
-{
+.iconSelectForm {
   position: absolute;
-  max-width: 400px;
-  width: 100vw;
-  max-height: 100vh;
-  margin: -100px 0 0 -50px;
-  padding: 50px;
-  padding-top: 125px;
-  box-sizing: border-box;
-  overflow-y: auto;
-  /* background: #ededed; */
-  list-style-type: none;
-  -webkit-font-smoothing: antialiased;
-  /* to stop flickering of text in safari */
-  
-  transform-origin: 0% 0%;
-  transform: translate(100%, 0);
-  
-  transition: transform 0.5s cubic-bezier(0.77,0.2,0.05,1.0);
-}
-
-#menuLeft li
-{
-  padding: 10px 0;
-  font-size: 22px;
-  font-family: "Bagel Fat One", system-ui;
-  
-
-}
-
-#menu li label
-{
-  cursor: pointer;
 }
