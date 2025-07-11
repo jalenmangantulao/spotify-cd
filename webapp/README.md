@@ -1,3 +1,12 @@
+> [!Note]
+> To run a live server for this folder of Hello Panda, run the following commands:
+> - `npm install`
+> - `npm run dev`
+>
+> This will start a webserver at http://127.0.0.1:8080.
+> 
+> To use the login functionality, visit http://127.0.0.1:8080/login.
+
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
 ## Getting Started
